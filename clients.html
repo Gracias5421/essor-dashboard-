@@ -31,6 +31,40 @@
 </head>
 <body class="min-h-screen w-full flex">
 
+  <!-- Mobile header -->
+  <div class="md:hidden fixed top-0 left-0 right-0 z-40 indigo flex items-center justify-between px-4 py-3">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs bg-gold" style="color:#1B1F3B;">E</div>
+      <span class="text-white text-base font-semibold font-display">Essor</span>
+    </div>
+    <button id="mobile-menu-btn" class="text-white p-1">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-50 indigo flex flex-col px-6 py-6">
+    <div class="flex items-center justify-between mb-8">
+      <span class="text-white text-lg font-semibold font-display">Essor</span>
+      <button id="mobile-menu-close" class="text-white p-1">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <nav class="flex flex-col gap-2 text-base font-medium">
+      <a class="px-3 py-3 rounded-lg text-white/70" href="index.html">Tableau de bord</a>
+      <a class="px-3 py-3 rounded-lg text-white/70" href="#">Campagnes</a>
+      <a class="px-3 py-3 rounded-lg text-white/70" href="#">Paiements</a>
+      <a class="px-3 py-3 rounded-lg text-gold" style="background:rgba(212,160,23,0.12);" href="clients.html">Clients</a>
+      <a class="px-3 py-3 rounded-lg text-white/70" href="#">Réglages</a>
+    </nav>
+  </div>
+  <script>
+    document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.remove("hidden");
+    });
+    document.getElementById("mobile-menu-close").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.add("hidden");
+    });
+  </script>
+
   <!-- Sidebar -->
   <aside class="w-64 shrink-0 hidden md:flex flex-col justify-between py-6 px-4 indigo min-h-screen">
     <div>
@@ -53,7 +87,7 @@
   </aside>
 
   <!-- Main -->
-  <main class="flex-1 px-5 md:px-10 py-8 max-w-6xl relative">
+  <main class="flex-1 px-5 md:px-10 py-8 pt-20 md:pt-8 max-w-6xl relative">
     <header class="flex items-center justify-between mb-6">
       <div>
         <h1 class="text-2xl md:text-3xl font-semibold font-display" style="color:#1B1F3B;">Clients</h1>
