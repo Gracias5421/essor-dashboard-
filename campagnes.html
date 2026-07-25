@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Essor — Campagnes</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'IBM Plex Sans', sans-serif; background:#F5F1E8; }
+  .font-display { font-family: 'Fraunces', serif; }
+  .indigo { background:#1B1F3B; }
+  .indigo-light { background:#262B4F; }
+  .text-gold { color:#D4A017; }
+  .bg-gold { background:#D4A017; }
+  .text-terracotta { color:#C1502E; }
+  .bg-terracotta { background:#C1502E; }
+  .text-slate { color:#4A4E5A; }
+  .text-green { color:#3E7C59; }
+  .card { background:#FFFFFF; border:1px solid #E9E2D3; border-radius:1rem; }
+  .progress-track { background:#EDE7D8; border-radius:9999px; height:6px; overflow:hidden; }
+  .progress-fill { height:100%; border-radius:9999px; }
+  #modal-overlay { transition: opacity .2s ease; }
+  #modal { transition: transform .2s ease, opacity .2s ease; }
+</style>
+</head>
+<body class="min-h-screen w-full flex">
+
+  <!-- Mobile header -->
+  <div class="md:hidden fixed top-0 left-0 right-0 z-40 indigo flex items-center justify-between px-4 py-3">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs bg-gold" style="color:#1B1F3B;">E</div>
+      <span class="text-white text-base font-semibold font-display">Essor</span>
+    </div>
+    <button id="mobile-menu-btn" class="text-white p-1">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-50 indigo flex flex-col px-6 py-6">
+    <div class="flex items-center justify-between mb-8">
+      <span class="text-white text-lg font-semibold font-display">Essor</span>
+      <button id="mobile-menu-close" class="text-white p-1">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <nav class="flex flex-col gap-2 text-base font-medium">
+      <a class="px-3 py-3 rounded-lg text-white/70" href="index.html">Tableau de bord</a>
+      <a class="px-3 py-3 rounded-lg text-gold" style="background:rgba(212,160,23,0.12);" href="campagnes.html">Campagnes</a>
+      <a class="px-3 py-3 rounded-lg text-white/70" href="#">Paiements</a>
+      <a class="px-3 py-3 rounded-lg text-white/70" href="clients.html">Clients</a>
+      <a class="px-3 py-3 rounded-lg text-white/70" href="#">Réglages</a>
+    </nav>
+  </div>
+  <script>
+    document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.remove("hidden");
+    });
+    document.getElementById("mobile-menu-close").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.add("hidden");
+    });
+  </script>
+
+  <!-- Sidebar -->
+  <aside class="w-64 shrink-0 hidden md:flex flex-col justify-between py-6 px-4 indigo min-h-screen">
+    <div>
+      <div class="flex items-center gap-2 px-2 mb-8">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm bg-gold" style="color:#1B1F3B;">E</div>
+        <span class="text-white text-lg font-semibold font-display">Essor</span>
+      </div>
+      <nav class="flex flex-col gap-1 text-sm font-medium">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/65" href="index.html">Tableau de bord</a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gold" style="background:rgba(212,160,23,0.12);" href="campagnes.html">Campagnes</a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/65" href="#">Paiements</a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/65" href="clients.html">Clients</a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/65" href="#">Réglages</a>
+      </nav>
+    </div>
+    <div class="rounded-xl p-4 indigo-light">
+      <p class="text-white/80 text-xs leading-relaxed mb-3">Passez au plan Croissance pour débloquer les rapports avancés.</p>
+      <button class="w-full text-xs font-semibold py-2 rounded-lg bg-gold" style="color:#1B1F3B;">Voir les plans</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1 px-5 md:px-10 py-8 pt-20 md:pt-8 max-w-6xl">
+    <header class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-semibold font-display" style="color:#1B1F3B;">Campagnes</h1>
+        <p class="text-sm text-slate">3 campagnes actives · 95 000 FCFA dépensés cette semaine</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="new-campaign-btn" class="text-sm font-semibold px-4 py-2.5 rounded-xl bg-terracotta text-white">
+          + Nouvelle
+        </button>
+        <button id="logout-btn" class="text-xs font-medium px-3 py-2 rounded-lg text-slate hidden sm:block" style="border:1px solid #E9E2D3;">
+          Déconnexion
+        </button>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="card p-4">
+        <span class="text-xs font-medium uppercase tracking-wide text-slate">Budget total (mois)</span>
+        <div class="text-xl font-semibold font-display mt-1" style="color:#1B1F3B;">180 000 FCFA</div>
+      </div>
+      <div class="card p-4">
+        <span class="text-xs font-medium uppercase tracking-wide text-slate">Dépensé</span>
+        <div class="text-xl font-semibold font-display mt-1" style="color:#1B1F3B;">95 000 FCFA</div>
+      </div>
+      <div class="card p-4">
+        <span class="text-xs font-medium uppercase tracking-wide text-slate">Portée totale</span>
+        <div class="text-xl font-semibold font-display mt-1" style="color:#1B1F3B;">24 800</div>
+      </div>
+      <div class="card p-4">
+        <span class="text-xs font-medium uppercase tracking-wide text-slate">Conversions</span>
+        <div class="text-xl font-semibold font-display mt-1 text-green">312</div>
+      </div>
+    </div>
+
+    <!-- Campaign list -->
+    <div id="campaign-list" class="flex flex-col gap-4"></div>
+  </main>
+
+  <!-- New campaign modal -->
+  <div id="modal-overlay" class="hidden fixed inset-0 bg-black/40 z-40 flex items-end sm:items-center justify-center">
+    <div id="modal" class="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:w-96 p-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-lg font-semibold font-display" style="color:#1B1F3B;">Nouvelle campagne</h2>
+        <button id="modal-close" class="text-slate">✕</button>
+      </div>
+      <form id="campaign-form" class="flex flex-col gap-4">
+        <div>
+          <label class="text-xs font-medium text-slate mb-1 block">Nom de la campagne</label>
+          <input id="c-name" type="text" required placeholder="Ex: Promo rentrée"
+            class="w-full rounded-lg px-3 py-2.5 text-sm" style="border:1px solid #E9E2D3;" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate mb-1 block">Canal</label>
+          <select id="c-channel" class="w-full rounded-lg px-3 py-2.5 text-sm" style="border:1px solid #E9E2D3;">
+            <option>Facebook</option>
+            <option>Instagram</option>
+            <option>WhatsApp Business</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate mb-1 block">Budget (FCFA)</label>
+          <input id="c-budget" type="number" required min="1000" placeholder="Ex: 30000"
+            class="w-full rounded-lg px-3 py-2.5 text-sm" style="border:1px solid #E9E2D3;" />
+        </div>
+        <button type="submit" class="mt-2 text-sm font-semibold py-2.5 rounded-lg bg-terracotta text-white">
+          Lancer la campagne
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcmy6DnVdOBcy7AgZa291XzJRaQgFsGXM",
+      authDomain: "essor-app-2f762.firebaseapp.com",
+      projectId: "essor-app-2f762",
+      storageBucket: "essor-app-2f762.firebasestorage.app",
+      messagingSenderId: "46923123565",
+      appId: "1:46923123565:web:33badf7e9b6c97e856a864"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) window.location.href = "login.html";
+    });
+
+    document.getElementById("logout-btn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "login.html";
+    });
+
+    let campaigns = [
+      { id: 1, name: "Promo weekend", channel: "Facebook", budget: 50000, spent: 42000, reach: 12400, clicks: 680, status: "Active" },
+      { id: 2, name: "Nouveaux articles", channel: "Instagram", budget: 30000, spent: 30000, reach: 8900, clicks: 410, status: "Terminée" },
+      { id: 3, name: "Rappel clients fidèles", channel: "WhatsApp Business", budget: 15000, spent: 23000, reach: 3500, clicks: 290, status: "Active" },
+    ];
+
+    const channelColor = { "Facebook": "#1877F2", "Instagram": "#C13584", "WhatsApp Business": "#3E7C59" };
+
+    function fcfa(n) { return new Intl.NumberFormat("fr-FR").format(n) + " FCFA"; }
+
+    function statusStyle(status) {
+      if (status === "Active") return "background:rgba(62,124,89,0.12); color:#3E7C59;";
+      if (status === "Terminée") return "background:rgba(74,78,90,0.1); color:#4A4E5A;";
+      return "background:rgba(212,160,23,0.15); color:#8A6A0D;";
+    }
+
+    function renderCampaigns() {
+      const container = document.getElementById("campaign-list");
+      container.innerHTML = "";
+      campaigns.forEach(c => {
+        const pct = Math.min(100, Math.round((c.spent / c.budget) * 100));
+        const over = c.spent > c.budget;
+        const card = document.createElement("div");
+        card.className = "card p-5";
+        card.innerHTML = `
+          <div class="flex items-start justify-between mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-2.5 h-2.5 rounded-full" style="background:${channelColor[c.channel]}"></div>
+              <div>
+                <p class="text-sm font-semibold" style="color:#1B1F3B;">${c.name}</p>
+                <p class="text-xs text-slate">${c.channel}</p>
+              </div>
+            </div>
+            <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full" style="${statusStyle(c.status)}">${c.status}</span>
+          </div>
+          <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+            <div>
+              <p class="text-sm font-semibold font-display" style="color:#1B1F3B;">${c.reach.toLocaleString("fr-FR")}</p>
+              <p class="text-[10px] uppercase text-slate">Portée</p>
+            </div>
+            <div>
+              <p class="text-sm font-semibold font-display" style="color:#1B1F3B;">${c.clicks.toLocaleString("fr-FR")}</p>
+              <p class="text-[10px] uppercase text-slate">Clics</p>
+            </div>
+            <div>
+              <p class="text-sm font-semibold font-display ${over ? 'text-terracotta' : ''}" style="${over ? '' : 'color:#1B1F3B;'}">${fcfa(c.spent)}</p>
+              <p class="text-[10px] uppercase text-slate">Dépensé / ${fcfa(c.budget)}</p>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width:${pct}%; background:${over ? '#C1502E' : '#D4A017'};"></div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    document.getElementById("new-campaign-btn").addEventListener("click", () => {
+      document.getElementById("modal-overlay").classList.remove("hidden");
+    });
+    document.getElementById("modal-close").addEventListener("click", closeModal);
+    document.getElementById("modal-overlay").addEventListener("click", (e) => {
+      if (e.target.id === "modal-overlay") closeModal();
+    });
+    function closeModal() {
+      document.getElementById("modal-overlay").classList.add("hidden");
+      document.getElementById("campaign-form").reset();
+    }
+
+    document.getElementById("campaign-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("c-name").value;
+      const channel = document.getElementById("c-channel").value;
+      const budget = parseInt(document.getElementById("c-budget").value, 10);
+      campaigns.unshift({
+        id: Date.now(), name, channel, budget, spent: 0, reach: 0, clicks: 0, status: "Active"
+      });
+      renderCampaigns();
+      closeModal();
+    });
+
+    renderCampaigns();
+  </script>
+</body>
+</html>
