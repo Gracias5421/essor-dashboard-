@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Essor — Connexion</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'IBM Plex Sans', sans-serif; background:#1B1F3B; }
+  .font-display { font-family: 'Fraunces', serif; }
+  .bg-gold { background:#D4A017; }
+  .text-gold { color:#D4A017; }
+  .text-terracotta { color:#C1502E; }
+  .input-field {
+    background:#262B4F;
+    border:1px solid #3A3F63;
+    color:#fff;
+  }
+  .input-field:focus { outline:none; border-color:#D4A017; }
+  .input-field::placeholder { color:#8A8FB0; }
+  .tab-active { background:#D4A017; color:#1B1F3B; }
+  .tab-inactive { background:transparent; color:rgba(255,255,255,0.5); }
+</style>
+</head>
+<body class="min-h-screen w-full flex items-center justify-center px-5">
+
+  <div class="w-full max-w-sm">
+    <!-- Logo -->
+    <div class="flex flex-col items-center mb-8">
+      <div class="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl bg-gold mb-3" style="color:#1B1F3B;">E</div>
+      <h1 class="text-white text-2xl font-semibold font-display">Essor</h1>
+      <p class="text-white/50 text-sm mt-1">Votre activité, en croissance.</p>
+    </div>
+
+    <!-- Card -->
+    <div class="rounded-2xl p-6" style="background:#20244A; border:1px solid #2E3358;">
+
+      <!-- Tabs -->
+      <div class="flex rounded-xl p-1 mb-6" style="background:#181C38;">
+        <button id="tab-login" onclick="showTab('login')" class="flex-1 py-2 rounded-lg text-sm font-semibold tab-active transition-colors">Connexion</button>
+        <button id="tab-signup" onclick="showTab('signup')" class="flex-1 py-2 rounded-lg text-sm font-semibold tab-inactive transition-colors">Inscription</button>
+      </div>
+
+      <!-- Error message -->
+      <div id="error-box" class="hidden mb-4 px-3 py-2.5 rounded-lg text-sm" style="background:rgba(193,80,46,0.15); color:#E08A6E;"></div>
+      <div id="success-box" class="hidden mb-4 px-3 py-2.5 rounded-lg text-sm" style="background:rgba(62,124,89,0.15); color:#7FBF9A;"></div>
+
+      <!-- Login form -->
+      <form id="form-login" class="flex flex-col gap-3">
+        <div>
+          <label class="text-xs font-medium text-white/60 mb-1 block">E-mail</label>
+          <input type="email" id="login-email" required placeholder="vous@boutique.com" class="input-field w-full rounded-lg px-3 py-2.5 text-sm" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-white/60 mb-1 block">Mot de passe</label>
+          <input type="password" id="login-password" required placeholder="••••••••" class="input-field w-full rounded-lg px-3 py-2.5 text-sm" />
+        </div>
+        <button type="submit" class="mt-2 bg-gold text-sm font-semibold py-2.5 rounded-lg" style="color:#1B1F3B;">
+          Se connecter
+        </button>
+      </form>
+
+      <!-- Signup form -->
+      <form id="form-signup" class="hidden flex-col gap-3">
+        <div>
+          <label class="text-xs font-medium text-white/60 mb-1 block">Nom de la boutique</label>
+          <input type="text" id="signup-name" required placeholder="Boutique Zola" class="input-field w-full rounded-lg px-3 py-2.5 text-sm" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-white/60 mb-1 block">E-mail</label>
+          <input type="email" id="signup-email" required placeholder="vous@boutique.com" class="input-field w-full rounded-lg px-3 py-2.5 text-sm" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-white/60 mb-1 block">Mot de passe</label>
+          <input type="password" id="signup-password" required minlength="6" placeholder="6 caractères minimum" class="input-field w-full rounded-lg px-3 py-2.5 text-sm" />
+        </div>
+        <button type="submit" class="mt-2 bg-gold text-sm font-semibold py-2.5 rounded-lg" style="color:#1B1F3B;">
+          Créer mon compte
+        </button>
+      </form>
+
+      <p class="text-white/30 text-xs text-center mt-5">
+        En continuant, vous acceptez les conditions d'utilisation d'Essor.
+      </p>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      updateProfile,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // ⚠️ Remplace ces valeurs par celles de TON projet Firebase
+    // (Console Firebase → Paramètres du projet → Vos applications → Config SDK)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcmy6DnVdOBcy7AgZa291XzJRaQgFsGXM",
+      authDomain: "essor-app-2f762.firebaseapp.com",
+      projectId: "essor-app-2f762",
+      storageBucket: "essor-app-2f762.firebasestorage.app",
+      messagingSenderId: "46923123565",
+      appId: "1:46923123565:web:33badf7e9b6c97e856a864"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Redirect if already logged in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.href = "index.html";
+      }
+    });
+
+    window.showTab = function (tab) {
+      const loginForm = document.getElementById("form-login");
+      const signupForm = document.getElementById("form-signup");
+      const tabLogin = document.getElementById("tab-login");
+      const tabSignup = document.getElementById("tab-signup");
+      hideMessages();
+      if (tab === "login") {
+        loginForm.classList.remove("hidden");
+        loginForm.classList.add("flex");
+        signupForm.classList.add("hidden");
+        signupForm.classList.remove("flex");
+        tabLogin.className = "flex-1 py-2 rounded-lg text-sm font-semibold tab-active transition-colors";
+        tabSignup.className = "flex-1 py-2 rounded-lg text-sm font-semibold tab-inactive transition-colors";
+      } else {
+        signupForm.classList.remove("hidden");
+        signupForm.classList.add("flex");
+        loginForm.classList.add("hidden");
+        loginForm.classList.remove("flex");
+        tabSignup.className = "flex-1 py-2 rounded-lg text-sm font-semibold tab-active transition-colors";
+        tabLogin.className = "flex-1 py-2 rounded-lg text-sm font-semibold tab-inactive transition-colors";
+      }
+    };
+
+    function showError(msg) {
+      hideMessages();
+      const box = document.getElementById("error-box");
+      box.textContent = msg;
+      box.classList.remove("hidden");
+    }
+
+    function showSuccess(msg) {
+      hideMessages();
+      const box = document.getElementById("success-box");
+      box.textContent = msg;
+      box.classList.remove("hidden");
+    }
+
+    function hideMessages() {
+      document.getElementById("error-box").classList.add("hidden");
+      document.getElementById("success-box").classList.add("hidden");
+    }
+
+    function translateFirebaseError(code) {
+      const map = {
+        "auth/email-already-in-use": "Cet e-mail est déjà utilisé.",
+        "auth/invalid-email": "Adresse e-mail invalide.",
+        "auth/weak-password": "Le mot de passe doit contenir au moins 6 caractères.",
+        "auth/user-not-found": "Aucun compte trouvé avec cet e-mail.",
+        "auth/wrong-password": "Mot de passe incorrect.",
+        "auth/invalid-credential": "E-mail ou mot de passe incorrect.",
+        "auth/too-many-requests": "Trop de tentatives. Réessayez plus tard.",
+      };
+      return map[code] || "Une erreur est survenue. Réessayez.";
+    }
+
+    document.getElementById("form-login").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hideMessages();
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        showSuccess("Connexion réussie, redirection...");
+      } catch (err) {
+        showError(translateFirebaseError(err.code));
+      }
+    });
+
+    document.getElementById("form-signup").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hideMessages();
+      const name = document.getElementById("signup-name").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(cred.user, { displayName: name });
+        showSuccess("Compte créé avec succès, redirection...");
+      } catch (err) {
+        showError(translateFirebaseError(err.code));
+      }
+    });
+  </script>
+</body>
+</html>
