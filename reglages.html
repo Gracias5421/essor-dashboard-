@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Essor — Réglages</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'IBM Plex Sans', sans-serif; background:#F5F1E8; }
+  .font-display { font-family: 'Fraunces', serif; }
+  .indigo { background:#1B1F3B; }
+  .indigo-light { background:#262B4F; }
+  .text-gold { color:#D4A017; }
+  .bg-gold { background:#D4A017; }
+  .text-terracotta { color:#C1502E; }
+  .bg-terracotta { background:#C1502E; }
+  .text-slate { color:#4A4E5A; }
+  .text-green { color:#3E7C59; }
+  .card { background:#FFFFFF; border:1px solid #E9E2D3; border-radius:1rem; }
+  .field { border:1px solid #E9E2D3; border-radius:0.6rem; }
+  .field:focus { outline:none; border-color:#D4A017; }
+  .toggle { width:42px; height:24px; border-radius:9999px; position:relative; cursor:pointer; transition:background .15s; }
+  .toggle-dot { width:18px; height:18px; border-radius:9999px; background:#fff; position:absolute; top:3px; left:3px; transition:left .15s; }
+  .toggle.on { background:#D4A017; }
+  .toggle.on .toggle-dot { left:21px; }
+  .toggle.off { background:#D7D0BF; }
+</style>
+</head>
+<body class="min-h-screen w-full flex">
+
+  <!-- Mobile header -->
+  <div class="md:hidden fixed top-0 left-0 right-0 z-40 indigo flex items-center justify-between px-4 py-3">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs bg-gold" style="color:#1B1F3B;">E</div>
+      <span class="text-white text-base font-semibold font-display">Essor</span>
+    </div>
+    <button id="mobile-menu-btn" class="text-white p-1">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-50 indigo flex flex-col px-6 py-6">
+    <div class="flex items-center justify-between mb-8">
+      <span class="text-white text-lg font-semibold font-display">Essor</span>
+      <button id="mobile-menu-close" class="text-white p-1">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <nav class="flex flex-col gap-2 text-base font-medium">
+      <a class="px-3 py-3 rounded-lg text-white/70" href="index.html">Tableau de bord</a>
+      <a class="px-3 py-3 rounded-lg text-white/70" href="campagnes.html">Campagnes</a>
+      <a class="px-3 py-3 rounded-lg text-white/70" href="paiements.html">Paiements</a>
+      <a class="px-3 py-3 rounded-lg text-white/70" href="clients.html">Clients</a>
+      <a class="px-3 py-3 rounded-lg text-gold" style="background:rgba(212,160,23,0.12);" href="reglages.html">Réglages</a>
+    </nav>
+  </div>
+  <script>
+    document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.remove("hidden");
+    });
+    document.getElementById("mobile-menu-close").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.add("hidden");
+    });
+  </script>
+
+  <!-- Sidebar -->
+  <aside class="w-64 shrink-0 hidden md:flex flex-col justify-between py-6 px-4 indigo min-h-screen">
+    <div>
+      <div class="flex items-center gap-2 px-2 mb-8">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm bg-gold" style="color:#1B1F3B;">E</div>
+        <span class="text-white text-lg font-semibold font-display">Essor</span>
+      </div>
+      <nav class="flex flex-col gap-1 text-sm font-medium">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/65" href="index.html">Tableau de bord</a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/65" href="campagnes.html">Campagnes</a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/65" href="paiements.html">Paiements</a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/65" href="clients.html">Clients</a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gold" style="background:rgba(212,160,23,0.12);" href="reglages.html">Réglages</a>
+      </nav>
+    </div>
+    <div class="rounded-xl p-4 indigo-light">
+      <p class="text-white/80 text-xs leading-relaxed mb-3">Passez au plan Croissance pour débloquer les rapports avancés.</p>
+      <button class="w-full text-xs font-semibold py-2 rounded-lg bg-gold" style="color:#1B1F3B;">Voir les plans</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1 px-5 md:px-10 py-8 pt-20 md:pt-8 max-w-3xl">
+    <header class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-semibold font-display" style="color:#1B1F3B;">Réglages</h1>
+        <p class="text-sm text-slate">Gère ton profil et tes préférences</p>
+      </div>
+      <button id="logout-btn" class="text-xs font-medium px-3 py-2 rounded-lg text-slate hidden sm:block" style="border:1px solid #E9E2D3;">
+        Déconnexion
+      </button>
+    </header>
+
+    <div id="feedback" class="hidden mb-4 px-4 py-2.5 rounded-lg text-sm"></div>
+
+    <!-- Profile -->
+    <section class="card p-5 mb-5">
+      <h2 class="text-sm font-semibold mb-4" style="color:#1B1F3B;">Profil de la boutique</h2>
+      <form id="profile-form" class="flex flex-col gap-4">
+        <div>
+          <label class="text-xs font-medium text-slate mb-1 block">Nom de la boutique</label>
+          <input id="p-name" type="text" value="Boutique Zola" class="field w-full px-3 py-2.5 text-sm" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate mb-1 block">E-mail</label>
+          <input id="p-email" type="email" disabled class="field w-full px-3 py-2.5 text-sm bg-gray-50 text-slate" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate mb-1 block">Téléphone</label>
+          <input id="p-phone" type="tel" placeholder="+229 XX XX XX XX" class="field w-full px-3 py-2.5 text-sm" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate mb-1 block">Ville</label>
+          <input id="p-city" type="text" value="Cotonou" class="field w-full px-3 py-2.5 text-sm" />
+        </div>
+        <button type="submit" class="self-start text-sm font-semibold px-4 py-2.5 rounded-lg bg-terracotta text-white">
+          Enregistrer
+        </button>
+      </form>
+    </section>
+
+    <!-- Notifications -->
+    <section class="card p-5 mb-5">
+      <h2 class="text-sm font-semibold mb-4" style="color:#1B1F3B;">Notifications</h2>
+      <div class="flex items-center justify-between py-2">
+        <div>
+          <p class="text-sm font-medium" style="color:#1B1F3B;">Paiements reçus</p>
+          <p class="text-xs text-slate">Alerte à chaque transaction Mobile Money</p>
+        </div>
+        <div class="toggle on" data-key="notif-payments"><div class="toggle-dot"></div></div>
+      </div>
+      <div class="flex items-center justify-between py-2 border-t" style="border-color:#EDE7D8;">
+        <div>
+          <p class="text-sm font-medium" style="color:#1B1F3B;">Fin de campagne</p>
+          <p class="text-xs text-slate">Quand une campagne atteint son budget</p>
+        </div>
+        <div class="toggle on" data-key="notif-campaigns"><div class="toggle-dot"></div></div>
+      </div>
+      <div class="flex items-center justify-between py-2 border-t" style="border-color:#EDE7D8;">
+        <div>
+          <p class="text-sm font-medium" style="color:#1B1F3B;">Résumé hebdomadaire</p>
+          <p class="text-xs text-slate">Récap envoyé chaque lundi</p>
+        </div>
+        <div class="toggle off" data-key="notif-weekly"><div class="toggle-dot"></div></div>
+      </div>
+    </section>
+
+    <!-- Security -->
+    <section class="card p-5 mb-5">
+      <h2 class="text-sm font-semibold mb-4" style="color:#1B1F3B;">Sécurité</h2>
+      <form id="password-form" class="flex flex-col gap-4">
+        <div>
+          <label class="text-xs font-medium text-slate mb-1 block">Nouveau mot de passe</label>
+          <input id="new-password" type="password" minlength="6" placeholder="6 caractères minimum" class="field w-full px-3 py-2.5 text-sm" />
+        </div>
+        <button type="submit" class="self-start text-sm font-semibold px-4 py-2.5 rounded-lg" style="border:1px solid #E9E2D3; color:#1B1F3B;">
+          Changer le mot de passe
+        </button>
+      </form>
+    </section>
+
+    <!-- Plan -->
+    <section class="card p-5 mb-5">
+      <h2 class="text-sm font-semibold mb-3" style="color:#1B1F3B;">Abonnement</h2>
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium" style="color:#1B1F3B;">Plan Essentiel</p>
+          <p class="text-xs text-slate">Gratuit · Fonctionnalités de base</p>
+        </div>
+        <button class="text-xs font-semibold px-3 py-2 rounded-lg bg-gold" style="color:#1B1F3B;">Passer au plan Croissance</button>
+      </div>
+    </section>
+
+    <button id="logout-btn-mobile" class="sm:hidden w-full text-sm font-semibold py-3 rounded-lg text-terracotta" style="border:1px solid #C1502E;">
+      Déconnexion
+    </button>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth, onAuthStateChanged, signOut, updatePassword
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcmy6DnVdOBcy7AgZa291XzJRaQgFsGXM",
+      authDomain: "essor-app-2f762.firebaseapp.com",
+      projectId: "essor-app-2f762",
+      storageBucket: "essor-app-2f762.firebasestorage.app",
+      messagingSenderId: "46923123565",
+      appId: "1:46923123565:web:33badf7e9b6c97e856a864"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        currentUser = user;
+        document.getElementById("p-email").value = user.email || "";
+        if (user.displayName) document.getElementById("p-name").value = user.displayName;
+      }
+    });
+
+    async function doLogout() {
+      await signOut(auth);
+      window.location.href = "login.html";
+    }
+    document.getElementById("logout-btn").addEventListener("click", doLogout);
+    document.getElementById("logout-btn-mobile").addEventListener("click", doLogout);
+
+    function showFeedback(msg, ok = true) {
+      const box = document.getElementById("feedback");
+      box.textContent = msg;
+      box.className = "mb-4 px-4 py-2.5 rounded-lg text-sm";
+      box.style.background = ok ? "rgba(62,124,89,0.12)" : "rgba(193,80,46,0.15)";
+      box.style.color = ok ? "#3E7C59" : "#C1502E";
+      box.classList.remove("hidden");
+      setTimeout(() => box.classList.add("hidden"), 3000);
+    }
+
+    document.getElementById("profile-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      showFeedback("Profil enregistré.");
+    });
+
+    document.getElementById("password-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const newPass = document.getElementById("new-password").value;
+      if (!newPass || newPass.length < 6) {
+        showFeedback("Le mot de passe doit contenir au moins 6 caractères.", false);
+        return;
+      }
+      try {
+        await updatePassword(currentUser, newPass);
+        showFeedback("Mot de passe mis à jour.");
+        document.getElementById("new-password").value = "";
+      } catch (err) {
+        showFeedback("Reconnecte-toi puis réessaie (sécurité Firebase).", false);
+      }
+    });
+
+    document.querySelectorAll(".toggle").forEach(t => {
+      t.addEventListener("click", () => {
+        t.classList.toggle("on");
+        t.classList.toggle("off");
+      });
+    });
+  </script>
+</body>
+</html>
